@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.yexuejc.springcloud</groupId>
+    <artifactId>springcloud-parent</artifactId>
+    <version>0.0.1</version>
+    <packaging>pom</packaging>
+
+    <name>springcloud-parent</name>
+    <description>对spring cloud 的学习demo</description>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>1.5.9.RELEASE</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+
+
+    <properties>
+        <repos.yexuejc.ivt.url>http://47.100.13.178:7081/nexus/content/groups/public</repos.yexuejc.ivt.url>
+        <repos.yexuejc.prod.url>http://47.100.13.178:7081/nexus/content/groups/public</repos.yexuejc.prod.url>
+        <repos.yexuejc.dist.url>http://47.100.13.178:7081/nexus/content/repositories</repos.yexuejc.dist.url>
+        <repos.xtone.url>http://192.168.1.2:8081/repository/xtone-public/</repos.xtone.url>
+
+        <repos.aliyun.url>http://maven.aliyun.com/nexus/content/groups/public</repos.aliyun.url>
+        <repos.jitpack.url>https://jitpack.io</repos.jitpack.url>
+
+
+        <maven.compiler.verbose>true</maven.compiler.verbose>
+        <validation-api.version>1.1.0.Final</validation-api.version>
+        <springfox-swagger2.version>2.2.2</springfox-swagger2.version>
+        <mybatis-spring-boot-starter.version>1.2.0</mybatis-spring-boot-starter.version>
+        <mybatis.version>3.4.2</mybatis.version>
+
+        <jjwt.version>0.7.0</jjwt.version>
+        <fastjson.version>1.1.46</fastjson.version>
+        <commons-codec.version>1.10</commons-codec.version>
+
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>1.8</java.version>
+
+        <!-- Spring Cloud 版本 -->
+        <spring-cloud.version>Edgware.RELEASE</spring-cloud.version>
+        <yexuejc.base.version>1.0.0</yexuejc.base.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.github.yexuejc</groupId>
+                <artifactId>yexuejc-base</artifactId>
+                <version>${yexuejc.base.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <finalName>${project.artifactId}</finalName>
+        <pluginManagement>
+            <plugins>
+                <!-- 打包源码 -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>3.0.1</version>
+                    <executions>
+                        <execution>
+                            <id>attach-sources</id>
+                            <goals>
+                                <goal>jar-no-fork</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <!-- 使用spring boot的maven插件进行打包 -->
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>build-info</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <!-- 是否打出可执行的jar包(仅支持Linux格式) -->
+                        <executable>false</executable>
+                    </configuration>
+                </plugin>
+                <!-- 将jar包和外部配置等文件整体打包(zip,tar等) -->
+                <plugin>
+                    <artifactId>maven-assembly-plugin</artifactId>
+                    <configuration>
+                        <finalName>${project.artifactId}-${project.version}</finalName>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>full</id>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>single</goal>
+                            </goals>
+                            <configuration>
+                                <descriptor>${basedir}/assembly/assembly.xml</descriptor>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+
+            </plugins>
+        </pluginManagement>
+    </build>
+
+
+    <repositories>
+        <repository>
+            <id>yexuejc-prod-nexus-public</id>
+            <name>yexuejc-prod-nexus-public</name>
+            <url>${repos.yexuejc.prod.url}</url>
+        </repository>
+        <repository>
+            <id>yexuejc-ivt-nexus-public</id>
+            <name>yexuejc-ivt-nexus-public</name>
+            <url>${repos.yexuejc.ivt.url}</url>
+        </repository>
+        <repository>
+            <id>xtone</id>
+            <name>成都信通科技</name>
+            <url>${repos.xtone.url}</url>
+        </repository>
+        <repository>
+            <id>aliyun-nexus-public</id>
+            <name>aliyun-nexus-public</name>
+            <url>${repos.aliyun.url}</url>
+        </repository>
+        <repository>
+            <id>jitpack.io</id>
+            <url>${repos.jitpack.url}</url>
+        </repository>
+        <!-- 引入spring cloud的依赖 -->
+        <repository>
+            <id>spring-milestones</id>
+            <name>Spring Milestones</name>
+            <url>https://repo.spring.io/milestone</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+    <!-- 中间件jar包发布目标 -->
+    <distributionManagement>
+        <repository>
+            <id>releases</id>
+            <name>nexus-release</name>
+            <url>${repos.yexuejc.dist.url}/releases</url>
+        </repository>
+        <snapshotRepository>
+            <id>snapshots</id>
+            <name>nexus-snapshots</name>
+            <url>${repos.yexuejc.dist.url}/snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+    <modules>
+        <module>springcloud-eureka-server</module>
+        <module>springcloud-eureka-client</module>
+    </modules>
+
+</project>
