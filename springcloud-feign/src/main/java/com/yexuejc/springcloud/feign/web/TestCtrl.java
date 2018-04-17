@@ -3,6 +3,7 @@ package com.yexuejc.springcloud.feign.web;
 import com.yexuejc.base.http.Resps;
 import com.yexuejc.springcloud.feign.service.TestService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,6 +27,7 @@ public class TestCtrl {
     public Resps getTest(@PathVariable String id) {
         Map map = new HashMap();
         map.put("id", id);
+        map.put("service", "feign");
         map.put("data", testService.test());
         return Resps.success().setSucc(map);
     }

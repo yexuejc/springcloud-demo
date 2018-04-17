@@ -26,6 +26,7 @@ public class TestCtrl {
     public Resps getTest(@PathVariable String id) {
         Map map = new HashMap();
         map.put("id", id);
+        map.put("service", "ribbon");
         map.put("data", testService.test());
         return Resps.success().setSucc(map);
     }
