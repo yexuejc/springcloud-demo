@@ -3,6 +3,7 @@ package com.yexuejc.springcloud.config.server;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.config.server.EnableConfigServer;
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 
 /**
  * 分布式配置中心(Spring Cloud Config)
@@ -15,6 +16,7 @@ import org.springframework.cloud.config.server.EnableConfigServer;
 @SpringBootApplication
 //开启配置服务
 @EnableConfigServer
+@EnableEurekaClient
 public class SpringcloudConfigServerApplication {
 
     public static void main(String[] args) {
