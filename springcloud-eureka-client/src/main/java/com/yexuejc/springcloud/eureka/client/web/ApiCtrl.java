@@ -5,6 +5,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * @PackageName: com.yexuejc.springcloud.eureka.client
  * @Description:
@@ -24,6 +27,13 @@ public class ApiCtrl {
      */
     @RequestMapping("/api/test")
     public Resps test() {
-        return Resps.success().setSucc("server.port：" + port);
+        Map map = new HashMap();
+        try {
+            Thread.sleep(1);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        map.put("server.port", port);
+        return Resps.success().setSucc(map);
     }
 }

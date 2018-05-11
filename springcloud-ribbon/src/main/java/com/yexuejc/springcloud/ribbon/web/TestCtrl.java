@@ -30,4 +30,5 @@ public class TestCtrl {
         map.put("data", testService.test());
         return Resps.success().setSucc(map);
     }
+
 }
